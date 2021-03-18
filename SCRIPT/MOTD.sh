@@ -110,7 +110,7 @@ fi
 [[ $ipv4_local != false ]] && INTERFACE=$(route | grep '^default' | grep -o '[^ ]*$')
 
 # Check if the system has a thermo sensor
-if [ -f /sys/class/thermal/thermal_zone0/temp && cpu_temperature != false ]; then
+if [[ -f /sys/class/thermal/thermal_zone0/temp && cpu_temperature != false ]]; then
     # Get the tempurature from the probe
     cur_temperature=$(cat /sys/class/thermal/thermal_zone0/temp)
     # Check the farenheit flag
