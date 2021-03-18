@@ -84,26 +84,29 @@ fi
 # Commands configuration
 ########################################################################
 
+[[ $ != false ]] && 
+
 # Calculate the proc count. Subtracting 5 so that the count accurately reflects the number
 # of procs rather than the number of lines in the output
-PROCCOUNT=$(ps -Afl | wc -l)
-PROCCOUNT=$((PROCCOUNT - 5))
+[[ $processes != false ]] && PROCCOUNT=$(ps -Afl | wc -l)
+[[ $processes != false ]] && PROCCOUNT=$((PROCCOUNT - 5))
+
 # Get the groups the current user is a member of
-GROUPZ=$(groups)
+[[ $username != false ]] && GROUPZ=$(groups)
 # Get the current user's name
-USER=$(whoami)
+[[ $username != false ]] && USER=$(whoami)
 # Get all members of the sudo group
-ADMINS=$(grep --regex "^sudo" /etc/group | awk -F: '{print $4}' | tr ',' '|')
-ADMINSLIST=$(grep -E "$ADMINS" /etc/passwd | tr ':' ' ' | tr ',' ' ' | awk '{print $5,$6,"("$1")"}' | tr '\n' ',' | sed '$s/.$//')
+[[ $ADMINSLIST != false ]] && ADMINS=$(grep --regex "^sudo" /etc/group | awk -F: '{print $4}' | tr ',' '|')
+[[ $ADMINSLIST != false ]] && ADMINSLIST=$(grep -E "$ADMINS" /etc/passwd | tr ':' ' ' | tr ',' ' ' | awk '{print $5,$6,"("$1")"}' | tr '\n' ',' | sed '$s/.$//')
 
 # Check the updates
-UPDATESAVAIL=$(cat /var/zzscriptzz/MOTD/updates-available.dat)
+[[ $updtaes != false ]] && UPDATESAVAIL=$(cat /var/zzscriptzz/MOTD/updates-available.dat)
 
 # Check all local interfaces
-INTERFACE=$(route | grep '^default' | grep -o '[^ ]*$')
+[[ $ipv4 != false ]] && INTERFACE=$(route | grep '^default' | grep -o '[^ ]*$')
 
 # Check if the system has a thermo sensor
-if [ -f /sys/class/thermal/thermal_zone0/temp ]; then
+if [ -f /sys/class/thermal/thermal_zone0/temp && cpu_temperature != false ]; then
     # Get the tempurature from the probe
     cur_temperature=$(cat /sys/class/thermal/thermal_zone0/temp)
     # Check the farenheit flag
@@ -153,65 +156,65 @@ else
 fi
 
 # Check and format the open ports on the machine
-OPEN_PORTS_IPV4=$(netstat -lnt | awk 'NR>2{print $4}' | grep -E '0.0.0.0:' | sed 's/.*://' | sort -n | uniq | awk -vORS=, '{print $1}' | sed 's/,$/\n/')
-OPEN_PORTS_IPV6=$(netstat -lnt | awk 'NR>2{print $4}' | grep -E ':::' | sed 's/.*://' | sort -n | uniq | awk -vORS=, '{print $1}' | sed 's/,$/\n/')
+[[ $OPEN_PORTS_IPV4 != false ]] && OPEN_PORTS_IPV4=$(netstat -lnt | awk 'NR>2{print $4}' | grep -E '0.0.0.0:' | sed 's/.*://' | sort -n | uniq | awk -vORS=, '{print $1}' | sed 's/,$/\n/')
+[[ $OPEN_PORTS_IPV6 != false ]] && OPEN_PORTS_IPV6=$(netstat -lnt | awk 'NR>2{print $4}' | grep -E ':::' | sed 's/.*://' | sort -n | uniq | awk -vORS=, '{print $1}' | sed 's/,$/\n/')
 
 # Get the list of processes and sort them by most mem usage and most cpu usage
-ps_output="$(ps aux)"
-mem_top_processes="$(printf "%s\\n" "${ps_output}" | awk '{print "\033[1;37m"$2, $4"%", "\033[1;32m"$11}' | sort -k2rn | head -3 | awk '{print " \033[0;35m+\t\033[1;32mID: "$1, $3, $2}')"
-cpu_top_processes="$(printf "%s\\n" "${ps_output}" | awk '{print "\033[1;37m"$2, $3"%", "\033[1;32m"$11}' | sort -k2rn | head -3 | awk '{print " \033[0;35m+\t\033[1;32mID: "$1, $3, $2}')"
+[[ $mem_top_processes != false || $cpu_top_processes != false ]] && ps_output="$(ps aux)"
+[[ $mem_top_processes != false ]] && mem_top_processes="$(printf "%s\\n" "${ps_output}" | awk '{print "\033[1;37m"$2, $4"%", "\033[1;32m"$11}' | sort -k2rn | head -3 | awk '{print " \033[0;35m+\t\033[1;32mID: "$1, $3, $2}')"
+[[ $cpu_top_processes != false ]] && cpu_top_processes="$(printf "%s\\n" "${ps_output}" | awk '{print "\033[1;37m"$2, $3"%", "\033[1;32m"$11}' | sort -k2rn | head -3 | awk '{print " \033[0;35m+\t\033[1;32mID: "$1, $3, $2}')"
 
 # Get your remote IP address using external resource ipinfo.io
-remote_ip="$(wget http://ipinfo.io/ip -qO -)"
+[[ $ipv4 != false ]] && remote_ip="$(wget http://ipinfo.io/ip -qO -)"
 # Get your local IP address
-local_ip="$(ip addr list "$INTERFACE" | grep "inet " | cut -d' ' -f6| cut -d/ -f1)"
+[[ $ipv4 != false ]] && local_ip="$(ip addr list "$INTERFACE" | grep "inet " | cut -d' ' -f6| cut -d/ -f1)"
 # Get the total machine uptime in specific dynamic format 0 days, 0 hours, 0 minutes
-machine_uptime="$(uptime | sed -E 's/^[^,]*up *//; s/, *[[:digit:]]* user.*//; s/min/minutes/; s/([[:digit:]]+):0?([[:digit:]]+)/\1 hours, \2 minutes/')"
+[[ $lmachine_uptime != false ]] && lmachine_uptime="$(uptime | sed -E 's/^[^,]*up *//; s/, *[[:digit:]]* user.*//; s/min/minutes/; s/([[:digit:]]+):0?([[:digit:]]+)/\1 hours, \2 minutes/')"
 # Get your linux distro name
-distro_pretty_name="$(grep "PRETTY_NAME" /etc/*release | cut -d "=" -f 2- | sed 's/"//g')"
+[[ $distro != false ]] && distro_pretty_name="$(grep "PRETTY_NAME" /etc/*release | cut -d "=" -f 2- | sed 's/"//g')"
 # Get the brand and model of your CPU
-cpu_model_name="$(grep "model name" /proc/cpuinfo | cut -d ' ' -f3- | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10}' | head -1)"
+[[ $cpu_model_name != false ]] && cpu_model_name="$(grep "model name" /proc/cpuinfo | cut -d ' ' -f3- | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10}' | head -1)"
 
 # Get memory usage to be displayed
-memory_percent="$(free -m | awk '/Mem/ { if($2 ~ /^[1-9]+/) memm=$3/$2*100; else memm=0; printf("%3.1f%%", memm) }')"
-memory_free_mb="$(free -t -m | grep "Mem" | awk '{print $4}')"
-memory_used_mb="$(free -t -m | grep "Mem" | awk '{print $3}')"
-memory_available_mb="$(free -t -m | grep "Mem" | awk '{print $2}')"
+[[ $memory != false ]] && memory_percent="$(free -m | awk '/Mem/ { if($2 ~ /^[1-9]+/) memm=$3/$2*100; else memm=0; printf("%3.1f%%", memm) }')"
+[[ $memory != false ]] && memory_free_mb="$(free -t -m | grep "Mem" | awk '{print $4}')"
+[[ $memory != false ]] && memory_used_mb="$(free -t -m | grep "Mem" | awk '{print $3}')"
+[[ $memory != false ]] && memory_available_mb="$(free -t -m | grep "Mem" | awk '{print $2}')"
 
 # Get SWAP usage to be displayed
-swap_percent="$(free -m | awk '/Swap/ { if($2 ~ /^[1-9]+/) swapm=$3/$2*100; else swapm=0; printf("%3.1f%%", swapm) }')"
-swap_free_mb="$(free -t -m | grep "Swap" | awk '{print $4}')"
-swap_used_mb="$(free -t -m | grep "Swap" | awk '{print $3}')"
-swap_available_mb="$(free -t -m | grep "Swap" | awk '{print $2}')"
+[[ $swap != false ]] && swap_percent="$(free -m | awk '/Swap/ { if($2 ~ /^[1-9]+/) swapm=$3/$2*100; else swapm=0; printf("%3.1f%%", swapm) }')"
+[[ $swap != false ]] && swap_free_mb="$(free -t -m | grep "Swap" | awk '{print $4}')"
+[[ $swap != false ]] && swap_used_mb="$(free -t -m | grep "Swap" | awk '{print $3}')"
+[[ $swap != false ]] && swap_available_mb="$(free -t -m | grep "Swap" | awk '{print $2}')"
 
 # Get HDD usage to be displayed
-hdd_percent="$(df -H | grep "/$" | awk '{ print $5 }')"
-hdd_free="$(df -hT | grep "/$" | awk '{print $5}')"
-hdd_used="$(df -hT | grep "/$" | awk '{print $4}')"
-hdd_available="$(df -hT | grep "/$" | awk '{print $3}')"
+[[ $hdd != false ]] && hdd_percent="$(df -H | grep "/$" | awk '{ print $5 }')"
+[[ $hdd != false ]] && hdd_free="$(df -hT | grep "/$" | awk '{print $5}')"
+[[ $hdd != false ]] && hdd_used="$(df -hT | grep "/$" | awk '{print $4}')"
+[[ $hdd != false ]] && hdd_available="$(df -hT | grep "/$" | awk '{print $3}')"
 
 #Get last login information (user, ip)
-last_login_user="$(last -a "$USER" | head -2 | awk 'NR==2{print $3,$4,$5,$6}')"
-last_login_ip="$(last -a "$USER" | head -2 | awk 'NR==2{print $10}')"
+[[ $last_login != false ]] && last_login_user="$(last -a "$USER" | head -2 | awk 'NR==2{print $3,$4,$5,$6}')"
+[[ $last_login != false ]] && last_login_ip="$(last -a "$USER" | head -2 | awk 'NR==2{print $10}')"
 
 # Get the 3 load averages
-read -r loadavg_one loadavg_five loadavg_fifteen rest < /proc/loadavg
+[[ $loadavg != false ]] && read -r loadavg_one loadavg_five loadavg_fifteen rest < /proc/loadavg
 
 # Get the current usergroup and translate it to something human readable
-if [[ "$GROUPZ" == *"sudo"* ]]; then
-    USERGROUP="Administrator"
-elif [[ "$USER" == "root" ]]; then
-    USERGROUP="Root"
-elif [[ "$USER" == "$USER" ]]; then
-    USERGROUP="Regular User"
-else
-    USERGROUP="$GROUPZ"
+if [[ $username != false ]]; then
+  if [[ "$GROUPZ" == *"sudo"* ]]; then
+      USERGROUP="Administrator"
+  elif [[ "$USER" == "root" ]]; then
+      USERGROUP="Root"
+  elif [[ "$USER" == "$USER" ]]; then
+      USERGROUP="Regular User"
+  else
+      USERGROUP="$GROUPZ"
+  fi
 fi
 
 # Clear the screen and reset the scrollback
-if [[ "$clearScreen" != false ]]; then
-  clear && printf '\e[3J'
-fi
+[[ "$clearScreen" != false ]] && clear && printf '\e[3J'
 
 # Print a city scape (purely aesthetic)
 # If "you no like", delete it or replace with your own ;)
@@ -253,8 +256,8 @@ fi
 [[ $mem_top_processes  != false ]] && echo -e "${C1} ++++++++++++++++++++: ${C3}Top Mem Processes${C1} :+++++++++++++++++++++++++"
 [[ $mem_top_processes  != false ]] && echo -e "$mem_top_processes${C0}"
 [[ $user_data_block    != false ]] && echo -e "${C1} ++++++++++++++++++++++++: ${C3}User Data${C1} :+++++++++++++++++++++++++++++"
-[[ $last_login         != false ]] && echo -e "${C1} + ${C3}Username       ${C1}=  ${C4}$USER ${C0}($USERGROUP)"
-[[ $username           != false ]] && echo -e "${C1} + ${C3}Last Login     ${C1}=  ${C4}$last_login_user from $last_login_ip"
+[[ $username           != false ]] && echo -e "${C1} + ${C3}Username       ${C1}=  ${C4}$USER ${C0}($USERGROUP)"
+[[ $last_login         != false ]] && echo -e "${C1} + ${C3}Last Login     ${C1}=  ${C4}$last_login_user from $last_login_ip"
 [[ $sessions           != false ]] && echo -e "${C1} + ${C3}Sessions       ${C1}=  ${C4}$(who | grep -c "$USER")"
 [[ $help_info_block    != false ]] && echo -e "${C1} ++++++++++++++++++++: ${C3}Helpful Information${C1} :+++++++++++++++++++++++"
 [[ $ADMINSLIST         != false ]] && echo -e "${C1} + ${C3}Administrators ${C1}=  ${C4}$ADMINSLIST"
