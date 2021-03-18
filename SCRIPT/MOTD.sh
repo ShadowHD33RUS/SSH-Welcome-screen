@@ -234,30 +234,30 @@ echo -e " ${C0}+                    +                     +         +
 fi
 
 # Print out all of the information collected using the script
-[[ $system_data_block  != false ]] && echo -e ${C1} ++++++++++++++++++++++++: ${C3}System Data${C1} :+++++++++++++++++++++++++++\n
-[[ $hostname           != false ]] && echo -e ${C1} + ${C3}Hostname       ${C1}=  ${C4}$(hostname) ${C0}($(hostname --fqdn))
-[[ $ipv4               != false ]] && echo -e ${C1} + ${C3}IPv4 Address   ${C1}=  ${C4}$remote_ip ${C0}($local_ip)
-[[ $machine_uptime     != false ]] && echo -e ${C1} + ${C3}Uptime         ${C1}=  ${C4}$machine_uptime 
-[[ $current_time       != false ]] && echo -e ${C1} + ${C3}Time           ${C1}=  ${C0}$(date)   
-[[ $cpu_temperature    != false ]] && echo -e ${C1} + ${C3}CPU Temp       ${C1}=  ${C0}$cur_temperature
-[[ $processes          != false ]] && echo -e ${C1} + ${C3}Processes      ${C1}=  ${C4}$PROCCOUNT of $(ulimit -u) max      
-[[ $loadavg            != false ]] && echo -e ${C1} + ${C3}Load Averages  ${C1}=  ${C4}${loadavg_one}, ${loadavg_five}, ${loadavg_fifteen} ${C0}(1, 5, 15 min)        
-[[ $distro             != false ]] && echo -e ${C1} + ${C3}Distro         ${C1}=  ${C4}$distro_pretty_name ${C0}($(uname -r))         
-[[ $cpu_model_name     != false ]] && echo -e ${C1} + ${C3}CPU            ${C1}=  ${C4}$cpu_model_name 
-[[ $memory             != false ]] && echo -e ${C1} + ${C3}Memory         ${C1}=  ${C4}$memory_percent ${C0}(${memory_free_mb}MB Free, ${memory_used_mb}MB/${memory_available_mb}MB Used)         
-[[ $swap               != false ]] && echo -e ${C1} + ${C3}Swap           ${C1}=  ${C4}$swap_percent ${C0}(${swap_free_mb}MB Free, ${swap_used_mb}MB/${swap_available_mb}MB Used)           
-[[ $hdd                != false ]] && echo -e ${C1} + ${C3}HDD Usage      ${C1}=  ${C4}$hdd_percent ${C0}(${hdd_free}B Free, ${hdd_used}B/${hdd_available}B Used)            
-[[ $updtaes            != false ]] && echo -e ${C1} + ${C3}Updates        ${C1}=  ${C4}$UPDATESAVAIL ${C0}Updates Available
-[[ $cpu_top_processes  != false ]] && echo -e ${C1} ++++++++++++++++++++: ${C3}Top CPU Processes${C1} :+++++++++++++++++++++++++
-[[ $cpu_top_processes  != false ]] && echo -e $cpu_top_processes${C0}
-[[ $mem_top_processes  != false ]] && echo -e ${C1} ++++++++++++++++++++: ${C3}Top Mem Processes${C1} :+++++++++++++++++++++++++
-[[ $mem_top_processes  != false ]] && echo -e $mem_top_processes${C0}
-[[ $user_data_block    != false ]] && echo -e ${C1} ++++++++++++++++++++++++: ${C3}User Data${C1} :+++++++++++++++++++++++++++++
-[[ $last_login         != false ]] && echo -e ${C1} + ${C3}Username       ${C1}=  ${C4}$USER ${C0}($USERGROUP)
-[[ $username           != false ]] && echo -e ${C1} + ${C3}Last Login     ${C1}=  ${C4}$last_login_user from $last_login_ip
-[[ $sessions           != false ]] && echo -e ${C1} + ${C3}Sessions       ${C1}=  ${C4}$(who | grep -c "$USER")
-[[ $help_info_block    != false ]] && echo -e ${C1} ++++++++++++++++++++: ${C3}Helpful Information${C1} :+++++++++++++++++++++++
-[[ $ADMINSLIST         != false ]] && echo -e ${C1} + ${C3}Administrators ${C1}=  ${C4}$ADMINSLIST
-[[ $OPEN_PORTS_IPV4    != false ]] && echo -e ${C1} + ${C3}OpenPorts IPv4 ${C1}=  ${C4}$OPEN_PORTS_IPV4
-[[ $OPEN_PORTS_IPV6    != false ]] && echo -e ${C1} + ${C3}OpenPorts IPv6 ${C1}=  ${C4}$OPEN_PORTS_IPV6
-[[ $last_line          != false ]] && echo -e ${C1} ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${CNC}
+[[ $system_data_block  != false ]] && echo -e "${C1} ++++++++++++++++++++++++: ${C3}System Data${C1} :+++++++++++++++++++++++++++\n"
+[[ $hostname           != false ]] && echo -e "${C1} + ${C3}Hostname       ${C1}=  ${C4}$(hostname) ${C0}($(hostname --fqdn))"
+[[ $ipv4               != false ]] && echo -e "${C1} + ${C3}IPv4 Address   ${C1}=  ${C4}$remote_ip ${C0}($local_ip)"
+[[ $machine_uptime     != false ]] && echo -e "${C1} + ${C3}Uptime         ${C1}=  ${C4}$machine_uptime"
+[[ $current_time       != false ]] && echo -e "${C1} + ${C3}Time           ${C1}=  ${C0}$(date)"
+[[ $cpu_temperature    != false ]] && echo -e "${C1} + ${C3}CPU Temp       ${C1}=  ${C0}$cur_temperature"
+[[ $processes          != false ]] && echo -e "${C1} + ${C3}Processes      ${C1}=  ${C4}$PROCCOUNT of $(ulimit -u) max"
+[[ $loadavg            != false ]] && echo -e "${C1} + ${C3}Load Averages  ${C1}=  ${C4}${loadavg_one}, ${loadavg_five}, ${loadavg_fifteen} ${C0}(1, 5, 15 min)"
+[[ $distro             != false ]] && echo -e "${C1} + ${C3}Distro         ${C1}=  ${C4}$distro_pretty_name ${C0}($(uname -r))"
+[[ $cpu_model_name     != false ]] && echo -e "${C1} + ${C3}CPU            ${C1}=  ${C4}$cpu_model_name"
+[[ $memory             != false ]] && echo -e "${C1} + ${C3}Memory         ${C1}=  ${C4}$memory_percent ${C0}(${memory_free_mb}MB Free, ${memory_used_mb}MB/${memory_available_mb}MB Used)     "    
+[[ $swap               != false ]] && echo -e "${C1} + ${C3}Swap           ${C1}=  ${C4}$swap_percent ${C0}(${swap_free_mb}MB Free, ${swap_used_mb}MB/${swap_available_mb}MB Used)"
+[[ $hdd                != false ]] && echo -e "${C1} + ${C3}HDD Usage      ${C1}=  ${C4}$hdd_percent ${C0}(${hdd_free}B Free, ${hdd_used}B/${hdd_available}B Used)"
+[[ $updtaes            != false ]] && echo -e "${C1} + ${C3}Updates        ${C1}=  ${C4}$UPDATESAVAIL ${C0}Updates Available"
+[[ $cpu_top_processes  != false ]] && echo -e "${C1} ++++++++++++++++++++: ${C3}Top CPU Processes${C1} :+++++++++++++++++++++++++"
+[[ $cpu_top_processes  != false ]] && echo -e "$cpu_top_processes${C0}"
+[[ $mem_top_processes  != false ]] && echo -e "${C1} ++++++++++++++++++++: ${C3}Top Mem Processes${C1} :+++++++++++++++++++++++++"
+[[ $mem_top_processes  != false ]] && echo -e "$mem_top_processes${C0}"
+[[ $user_data_block    != false ]] && echo -e "${C1} ++++++++++++++++++++++++: ${C3}User Data${C1} :+++++++++++++++++++++++++++++"
+[[ $last_login         != false ]] && echo -e "${C1} + ${C3}Username       ${C1}=  ${C4}$USER ${C0}($USERGROUP)"
+[[ $username           != false ]] && echo -e "${C1} + ${C3}Last Login     ${C1}=  ${C4}$last_login_user from $last_login_ip"
+[[ $sessions           != false ]] && echo -e "${C1} + ${C3}Sessions       ${C1}=  ${C4}$(who | grep -c "$USER")"
+[[ $help_info_block    != false ]] && echo -e "${C1} ++++++++++++++++++++: ${C3}Helpful Information${C1} :+++++++++++++++++++++++"
+[[ $ADMINSLIST         != false ]] && echo -e "${C1} + ${C3}Administrators ${C1}=  ${C4}$ADMINSLIST"
+[[ $OPEN_PORTS_IPV4    != false ]] && echo -e "${C1} + ${C3}OpenPorts IPv4 ${C1}=  ${C4}$OPEN_PORTS_IPV4"
+[[ $OPEN_PORTS_IPV6    != false ]] && echo -e "${C1} + ${C3}OpenPorts IPv6 ${C1}=  ${C4}$OPEN_PORTS_IPV6"
+[[ $last_line          != false ]] && echo -e "${C1} ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${CNC}"
