@@ -169,7 +169,7 @@ fi
 # Get your local IP address
 [[ $ipv4 != false ]] && local_ip="$(ip addr list "$INTERFACE" | grep "inet " | cut -d' ' -f6| cut -d/ -f1)"
 # Get the total machine uptime in specific dynamic format 0 days, 0 hours, 0 minutes
-[[ $lmachine_uptime != false ]] && lmachine_uptime="$(uptime | sed -E 's/^[^,]*up *//; s/, *[[:digit:]]* user.*//; s/min/minutes/; s/([[:digit:]]+):0?([[:digit:]]+)/\1 hours, \2 minutes/')"
+[[ $machine_uptime != false ]] && machine_uptime="$(uptime | sed -E 's/^[^,]*up *//; s/, *[[:digit:]]* user.*//; s/min/minutes/; s/([[:digit:]]+):0?([[:digit:]]+)/\1 hours, \2 minutes/')"
 # Get your linux distro name
 [[ $distro != false ]] && distro_pretty_name="$(grep "PRETTY_NAME" /etc/*release | cut -d "=" -f 2- | sed 's/"//g')"
 # Get the brand and model of your CPU
