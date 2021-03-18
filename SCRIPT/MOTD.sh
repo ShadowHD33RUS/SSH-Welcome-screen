@@ -53,6 +53,33 @@ isCPUTempFarenheit=false
 #OPEN_PORTS_IPV6=false   # OpenPorts IPv6 ${C1}=  ${C4}$OPEN_PORTS_IPV6
 #last_line=false         # Print last line
 
+if [[ $system_data_block == false ]]; then
+  hostname=false
+  ipv4=false
+  machine_uptime=false
+  current_time=false
+  cpu_temperature=false
+  processes=false
+  loadavg=false
+  distro=false
+  cpu_model_name=false
+  memory=false
+  swap=false
+  hdd=false
+  updtaes=false
+fi
+if [[ $user_data_block == false ]]; then
+  user_data_block=false
+  last_login=false
+  username=false
+  sessions=false
+fi
+if [[ $help_info_block == false ]]; then
+  ADMINSLIST=false 
+  OPEN_PORTS_IPV4=false 
+  OPEN_PORTS_IPV6=false 
+fi
+
 ########################################################################
 # Commands configuration
 ########################################################################
@@ -207,8 +234,7 @@ echo -e " ${C0}+                    +                     +         +
 fi
 
 # Print out all of the information collected using the script
-if [[ $system_data_block != false ]]; then
-                                      echo -e ${C1} ++++++++++++++++++++++++: ${C3}System Data${C1} :+++++++++++++++++++++++++++
+[[ $system_data_block  != false ]] && echo -e ${C1} ++++++++++++++++++++++++: ${C3}System Data${C1} :+++++++++++++++++++++++++++\n
 [[ $hostname           != false ]] && echo -e ${C1} + ${C3}Hostname       ${C1}=  ${C4}$(hostname) ${C0}($(hostname --fqdn))
 [[ $ipv4               != false ]] && echo -e ${C1} + ${C3}IPv4 Address   ${C1}=  ${C4}$remote_ip ${C0}($local_ip)
 [[ $machine_uptime     != false ]] && echo -e ${C1} + ${C3}Uptime         ${C1}=  ${C4}$machine_uptime 
@@ -222,21 +248,16 @@ if [[ $system_data_block != false ]]; then
 [[ $swap               != false ]] && echo -e ${C1} + ${C3}Swap           ${C1}=  ${C4}$swap_percent ${C0}(${swap_free_mb}MB Free, ${swap_used_mb}MB/${swap_available_mb}MB Used)           
 [[ $hdd                != false ]] && echo -e ${C1} + ${C3}HDD Usage      ${C1}=  ${C4}$hdd_percent ${C0}(${hdd_free}B Free, ${hdd_used}B/${hdd_available}B Used)            
 [[ $updtaes            != false ]] && echo -e ${C1} + ${C3}Updates        ${C1}=  ${C4}$UPDATESAVAIL ${C0}Updates Available
-fi
 [[ $cpu_top_processes  != false ]] && echo -e ${C1} ++++++++++++++++++++: ${C3}Top CPU Processes${C1} :+++++++++++++++++++++++++
 [[ $cpu_top_processes  != false ]] && echo -e $cpu_top_processes${C0}
 [[ $mem_top_processes  != false ]] && echo -e ${C1} ++++++++++++++++++++: ${C3}Top Mem Processes${C1} :+++++++++++++++++++++++++
 [[ $mem_top_processes  != false ]] && echo -e $mem_top_processes${C0}
-if [[ $user_data_block != false ]]; then
-                                      echo -e ${C1} ++++++++++++++++++++++++: ${C3}User Data${C1} :+++++++++++++++++++++++++++++
+[[ $user_data_block    != false ]] && echo -e ${C1} ++++++++++++++++++++++++: ${C3}User Data${C1} :+++++++++++++++++++++++++++++
 [[ $last_login         != false ]] && echo -e ${C1} + ${C3}Username       ${C1}=  ${C4}$USER ${C0}($USERGROUP)
 [[ $username           != false ]] && echo -e ${C1} + ${C3}Last Login     ${C1}=  ${C4}$last_login_user from $last_login_ip
 [[ $sessions           != false ]] && echo -e ${C1} + ${C3}Sessions       ${C1}=  ${C4}$(who | grep -c "$USER")
-fi
-if [[ $help_info_block != false ]]; then
-                                      echo -e ${C1} ++++++++++++++++++++: ${C3}Helpful Information${C1} :+++++++++++++++++++++++
+[[ $help_info_block    != false ]] && echo -e ${C1} ++++++++++++++++++++: ${C3}Helpful Information${C1} :+++++++++++++++++++++++
 [[ $ADMINSLIST         != false ]] && echo -e ${C1} + ${C3}Administrators ${C1}=  ${C4}$ADMINSLIST
 [[ $OPEN_PORTS_IPV4    != false ]] && echo -e ${C1} + ${C3}OpenPorts IPv4 ${C1}=  ${C4}$OPEN_PORTS_IPV4
 [[ $OPEN_PORTS_IPV6    != false ]] && echo -e ${C1} + ${C3}OpenPorts IPv6 ${C1}=  ${C4}$OPEN_PORTS_IPV6
-fi
-[[ $last_line != false ]]          && echo -e ${C1} ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${CNC}
+[[ $last_line          != false ]] && echo -e ${C1} ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${CNC}
