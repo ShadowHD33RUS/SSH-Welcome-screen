@@ -22,6 +22,10 @@ C8='\033[1;31m' # Red
 # You can output it in Degrees Farenheit by changing the parameter below
 # to true
 isCPUTempFarenheit=false
+#clearScreen=false
+#printCity=false
+
+# Printable information. If you not need to show smt - just comment this
 
 ########################################################################
 # Commands configuration
@@ -152,11 +156,14 @@ else
 fi
 
 # Clear the screen and reset the scrollback
-clear && printf '\e[3J'
+if [[ "$clearScreen" != false ]]; then
+  clear && printf '\e[3J'
+fi
 
 # Print a city scape (purely aesthetic)
 # If "you no like", delete it or replace with your own ;)
-echo -e " ${C0}+                    +                     +         +
+if [[ "$printCity" != false ]]; then
+  echo -e " ${C0}+                    +                     +         +
                                  +                  +           +
           +                                             +
                                        \ /
@@ -171,6 +178,7 @@ echo -e " ${C0}+                    +                     +         +
     |     |      |   |   |            :   .   |   ;     ;          |
           :          :                .          .      .          :
 "
+fi
 
 # Print out all of the information collected using the script
 echo -e "${C1} ++++++++++++++++++++++++: ${C3}System Data${C1} :+++++++++++++++++++++++++++
