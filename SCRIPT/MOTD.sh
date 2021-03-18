@@ -30,6 +30,7 @@ isCPUTempFarenheit=false
 #system_data_block=false # System Data [ALL BLOCK]
 #hostname=false          # Hostname
 #ipv4=false              # IPv4 Address
+#ipv4_local=false        # IPv4 Address for local network (if you connected to router)
 #machine_uptime=false    # Uptime
 #current_time=false      # Time
 #cpu_temperature=false   # CPU Temp
@@ -68,6 +69,9 @@ if [[ $system_data_block == false ]]; then
   hdd=false
   updtaes=false
 fi
+if [[ $ipv4 == false ]]; then
+ ipv4_local=false
+fi
 if [[ $user_data_block == false ]]; then
   user_data_block=false
   last_login=false
@@ -103,7 +107,7 @@ fi
 [[ $updtaes != false ]] && UPDATESAVAIL=$(cat /var/zzscriptzz/MOTD/updates-available.dat)
 
 # Check all local interfaces
-[[ $ipv4 != false ]] && INTERFACE=$(route | grep '^default' | grep -o '[^ ]*$')
+[[ $ipv4_local != false ]] && INTERFACE=$(route | grep '^default' | grep -o '[^ ]*$')
 
 # Check if the system has a thermo sensor
 if [ -f /sys/class/thermal/thermal_zone0/temp && cpu_temperature != false ]; then
@@ -167,7 +171,7 @@ fi
 # Get your remote IP address using external resource ipinfo.io
 [[ $ipv4 != false ]] && remote_ip="$(wget http://ipinfo.io/ip -qO -)"
 # Get your local IP address
-[[ $ipv4 != false ]] && local_ip="$(ip addr list "$INTERFACE" | grep "inet " | cut -d' ' -f6| cut -d/ -f1)"
+[[ $ipv4_local != false ]] && local_ip="($(ip addr list "$INTERFACE" | grep "inet " | cut -d' ' -f6| cut -d/ -f1))"
 # Get the total machine uptime in specific dynamic format 0 days, 0 hours, 0 minutes
 [[ $machine_uptime != false ]] && machine_uptime="$(uptime | sed -E 's/^[^,]*up *//; s/, *[[:digit:]]* user.*//; s/min/minutes/; s/([[:digit:]]+):0?([[:digit:]]+)/\1 hours, \2 minutes/')"
 # Get your linux distro name
@@ -239,7 +243,7 @@ fi
 # Print out all of the information collected using the script
 [[ $system_data_block  != false ]] && echo -e "${C1} ++++++++++++++++++++++++: ${C3}System Data${C1} :+++++++++++++++++++++++++++\n"
 [[ $hostname           != false ]] && echo -e "${C1} + ${C3}Hostname       ${C1}=  ${C4}$(hostname) ${C0}($(hostname --fqdn))"
-[[ $ipv4               != false ]] && echo -e "${C1} + ${C3}IPv4 Address   ${C1}=  ${C4}$remote_ip ${C0}($local_ip)"
+[[ $ipv4               != false ]] && echo -e "${C1} + ${C3}IPv4 Address   ${C1}=  ${C4}$remote_ip ${C0}$local_ip"
 [[ $machine_uptime     != false ]] && echo -e "${C1} + ${C3}Uptime         ${C1}=  ${C4}$machine_uptime"
 [[ $current_time       != false ]] && echo -e "${C1} + ${C3}Time           ${C1}=  ${C0}$(date)"
 [[ $cpu_temperature    != false ]] && echo -e "${C1} + ${C3}CPU Temp       ${C1}=  ${C0}$cur_temperature"
