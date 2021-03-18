@@ -25,7 +25,33 @@ isCPUTempFarenheit=false
 #clearScreen=false
 #printCity=false
 
-# Printable information. If you not need to show smt - just comment this
+# Printable information.
+# If you NOT needed to show something - just comment this
+#system_data_block=false # System Data [ALL BLOCK]
+#hostname=false          # Hostname      
+#ipv4=false              # IPv4 Address  
+#machine_uptime=false    # Uptime        
+#current_time=false      # Time          
+#cpu_temperature=false   # CPU Temp      
+#processes=false         # Processes     
+#loadavg=false           # Load Averages 
+#distro=false            # Distro        
+#cpu_model_name=false    # CPU           
+#memory=false            # Memory        
+#swap=false              # Swap          
+#hdd=false               # HDD Usage     
+#updtaes=false           # Updates       
+#cpu_top_processes=false # Top CPU Processes
+#mem_top_processes=false # Top Mem Processes
+#user_data_block=false   # User Data [ALL BLOCK]
+#last_login=false        # Last Login   
+#username=false          # Username     
+#sessions=false          # Sessions     
+#help_info_block=false   # Helpful Information [ALL BLOCK]
+#ADMINSLIST=false        # Administrators
+#OPEN_PORTS_IPV4=false   # OpenPorts IPv4 ${C1}=  ${C4}$OPEN_PORTS_IPV4
+#OPEN_PORTS_IPV6=false   # OpenPorts IPv6 ${C1}=  ${C4}$OPEN_PORTS_IPV6
+#last_line=false         # Print last line
 
 ########################################################################
 # Commands configuration
@@ -163,7 +189,7 @@ fi
 # Print a city scape (purely aesthetic)
 # If "you no like", delete it or replace with your own ;)
 if [[ "$printCity" != false ]]; then
-  echo -e " ${C0}+                    +                     +         +
+echo -e " ${C0}+                    +                     +         +
                                  +                  +           +
           +                                             +
                                        \ /
@@ -181,32 +207,36 @@ if [[ "$printCity" != false ]]; then
 fi
 
 # Print out all of the information collected using the script
-echo -e "${C1} ++++++++++++++++++++++++: ${C3}System Data${C1} :+++++++++++++++++++++++++++
-${C1} + ${C3}Hostname       ${C1}=  ${C4}$(hostname) ${C0}($(hostname --fqdn))
-${C1} + ${C3}IPv4 Address   ${C1}=  ${C4}$remote_ip ${C0}($local_ip)
-${C1} + ${C3}Uptime         ${C1}=  ${C4}$machine_uptime
-${C1} + ${C3}Time           ${C1}=  ${C0}$(date)
-${C1} + ${C3}CPU Temp       ${C1}=  ${C0}$cur_temperature
-${C1} + ${C3}Processes      ${C1}=  ${C4}$PROCCOUNT of $(ulimit -u) max
-${C1} + ${C3}Load Averages  ${C1}=  ${C4}${loadavg_one}, ${loadavg_five}, ${loadavg_fifteen} ${C0}(1, 5, 15 min)
-${C1} + ${C3}Distro         ${C1}=  ${C4}$distro_pretty_name ${C0}($(uname -r))
-${C1} + ${C3}CPU            ${C1}=  ${C4}$cpu_model_name
-${C1} + ${C3}Memory         ${C1}=  ${C4}$memory_percent ${C0}(${memory_free_mb}MB Free, ${memory_used_mb}MB/${memory_available_mb}MB Used)
-${C1} + ${C3}Swap           ${C1}=  ${C4}$swap_percent ${C0}(${swap_free_mb}MB Free, ${swap_used_mb}MB/${swap_available_mb}MB Used)
-${C1} + ${C3}HDD Usage      ${C1}=  ${C4}$hdd_percent ${C0}(${hdd_free}B Free, ${hdd_used}B/${hdd_available}B Used)
-${C1} + ${C3}Updates        ${C1}=  ${C4}$UPDATESAVAIL ${C0}Updates Available
-${C1} ++++++++++++++++++++: ${C3}Top CPU Processes${C1} :+++++++++++++++++++++++++
-$cpu_top_processes${C0}
-${C1} ++++++++++++++++++++: ${C3}Top Mem Processes${C1} :+++++++++++++++++++++++++
-$mem_top_processes${C0}
-${C1} ++++++++++++++++++++++++: ${C3}User Data${C1} :+++++++++++++++++++++++++++++
-${C1} + ${C3}Username       ${C1}=  ${C4}$USER ${C0}($USERGROUP)
-${C1} + ${C3}Last Login     ${C1}=  ${C4}$last_login_user from $last_login_ip
-${C1} + ${C3}Sessions       ${C1}=  ${C4}$(who | grep -c "$USER")
-${C1} ++++++++++++++++++++: ${C3}Helpful Information${C1} :+++++++++++++++++++++++
-${C1} + ${C3}Administrators ${C1}=  ${C4}$ADMINSLIST
-${C1} + ${C3}OpenPorts IPv4 ${C1}=  ${C4}$OPEN_PORTS_IPV4
-${C1} + ${C3}OpenPorts IPv6 ${C1}=  ${C4}$OPEN_PORTS_IPV6
-${C1} ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${CNC}
-"
-
+if [[ $system_data_block != false ]]; then
+                                      echo -e ${C1} ++++++++++++++++++++++++: ${C3}System Data${C1} :+++++++++++++++++++++++++++
+[[ $hostname           != false ]] && echo -e ${C1} + ${C3}Hostname       ${C1}=  ${C4}$(hostname) ${C0}($(hostname --fqdn))
+[[ $ipv4               != false ]] && echo -e ${C1} + ${C3}IPv4 Address   ${C1}=  ${C4}$remote_ip ${C0}($local_ip)
+[[ $machine_uptime     != false ]] && echo -e ${C1} + ${C3}Uptime         ${C1}=  ${C4}$machine_uptime 
+[[ $current_time       != false ]] && echo -e ${C1} + ${C3}Time           ${C1}=  ${C0}$(date)   
+[[ $cpu_temperature    != false ]] && echo -e ${C1} + ${C3}CPU Temp       ${C1}=  ${C0}$cur_temperature
+[[ $processes          != false ]] && echo -e ${C1} + ${C3}Processes      ${C1}=  ${C4}$PROCCOUNT of $(ulimit -u) max      
+[[ $loadavg            != false ]] && echo -e ${C1} + ${C3}Load Averages  ${C1}=  ${C4}${loadavg_one}, ${loadavg_five}, ${loadavg_fifteen} ${C0}(1, 5, 15 min)        
+[[ $distro             != false ]] && echo -e ${C1} + ${C3}Distro         ${C1}=  ${C4}$distro_pretty_name ${C0}($(uname -r))         
+[[ $cpu_model_name     != false ]] && echo -e ${C1} + ${C3}CPU            ${C1}=  ${C4}$cpu_model_name 
+[[ $memory             != false ]] && echo -e ${C1} + ${C3}Memory         ${C1}=  ${C4}$memory_percent ${C0}(${memory_free_mb}MB Free, ${memory_used_mb}MB/${memory_available_mb}MB Used)         
+[[ $swap               != false ]] && echo -e ${C1} + ${C3}Swap           ${C1}=  ${C4}$swap_percent ${C0}(${swap_free_mb}MB Free, ${swap_used_mb}MB/${swap_available_mb}MB Used)           
+[[ $hdd                != false ]] && echo -e ${C1} + ${C3}HDD Usage      ${C1}=  ${C4}$hdd_percent ${C0}(${hdd_free}B Free, ${hdd_used}B/${hdd_available}B Used)            
+[[ $updtaes            != false ]] && echo -e ${C1} + ${C3}Updates        ${C1}=  ${C4}$UPDATESAVAIL ${C0}Updates Available
+fi
+[[ $cpu_top_processes  != false ]] && echo -e ${C1} ++++++++++++++++++++: ${C3}Top CPU Processes${C1} :+++++++++++++++++++++++++
+[[ $cpu_top_processes  != false ]] && echo -e $cpu_top_processes${C0}
+[[ $mem_top_processes  != false ]] && echo -e ${C1} ++++++++++++++++++++: ${C3}Top Mem Processes${C1} :+++++++++++++++++++++++++
+[[ $mem_top_processes  != false ]] && echo -e $mem_top_processes${C0}
+if [[ $user_data_block != false ]]; then
+                                      echo -e ${C1} ++++++++++++++++++++++++: ${C3}User Data${C1} :+++++++++++++++++++++++++++++
+[[ $last_login         != false ]] && echo -e ${C1} + ${C3}Username       ${C1}=  ${C4}$USER ${C0}($USERGROUP)
+[[ $username           != false ]] && echo -e ${C1} + ${C3}Last Login     ${C1}=  ${C4}$last_login_user from $last_login_ip
+[[ $sessions           != false ]] && echo -e ${C1} + ${C3}Sessions       ${C1}=  ${C4}$(who | grep -c "$USER")
+fi
+if [[ $help_info_block != false ]]; then
+                                      echo -e ${C1} ++++++++++++++++++++: ${C3}Helpful Information${C1} :+++++++++++++++++++++++
+[[ $ADMINSLIST         != false ]] && echo -e ${C1} + ${C3}Administrators ${C1}=  ${C4}$ADMINSLIST
+[[ $OPEN_PORTS_IPV4    != false ]] && echo -e ${C1} + ${C3}OpenPorts IPv4 ${C1}=  ${C4}$OPEN_PORTS_IPV4
+[[ $OPEN_PORTS_IPV6    != false ]] && echo -e ${C1} + ${C3}OpenPorts IPv6 ${C1}=  ${C4}$OPEN_PORTS_IPV6
+fi
+[[ $last_line != false ]]          && echo -e ${C1} ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${CNC}
