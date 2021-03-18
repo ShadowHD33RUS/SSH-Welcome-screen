@@ -28,25 +28,25 @@ isCPUTempFarenheit=false
 # Printable information.
 # If you NOT needed to show something - just comment this
 #system_data_block=false # System Data [ALL BLOCK]
-#hostname=false          # Hostname      
-#ipv4=false              # IPv4 Address  
-#machine_uptime=false    # Uptime        
-#current_time=false      # Time          
-#cpu_temperature=false   # CPU Temp      
-#processes=false         # Processes     
-#loadavg=false           # Load Averages 
-#distro=false            # Distro        
-#cpu_model_name=false    # CPU           
-#memory=false            # Memory        
-#swap=false              # Swap          
-#hdd=false               # HDD Usage     
-#updtaes=false           # Updates       
+#hostname=false          # Hostname
+#ipv4=false              # IPv4 Address
+#machine_uptime=false    # Uptime
+#current_time=false      # Time
+#cpu_temperature=false   # CPU Temp
+#processes=false         # Processes
+#loadavg=false           # Load Averages
+#distro=false            # Distro
+#cpu_model_name=false    # CPU
+#memory=false            # Memory
+#swap=false              # Swap
+#hdd=false               # HDD Usage
+#updtaes=false           # Updates
 #cpu_top_processes=false # Top CPU Processes
 #mem_top_processes=false # Top Mem Processes
 #user_data_block=false   # User Data [ALL BLOCK]
-#last_login=false        # Last Login   
-#username=false          # Username     
-#sessions=false          # Sessions     
+#last_login=false        # Last Login
+#username=false          # Username
+#sessions=false          # Sessions
 #help_info_block=false   # Helpful Information [ALL BLOCK]
 #ADMINSLIST=false        # Administrators
 #OPEN_PORTS_IPV4=false   # OpenPorts IPv4 ${C1}=  ${C4}$OPEN_PORTS_IPV4
@@ -75,9 +75,9 @@ if [[ $user_data_block == false ]]; then
   sessions=false
 fi
 if [[ $help_info_block == false ]]; then
-  ADMINSLIST=false 
-  OPEN_PORTS_IPV4=false 
-  OPEN_PORTS_IPV6=false 
+  ADMINSLIST=false
+  OPEN_PORTS_IPV4=false
+  OPEN_PORTS_IPV6=false
 fi
 
 ########################################################################
@@ -112,7 +112,7 @@ if [ -f /sys/class/thermal/thermal_zone0/temp ]; then
         cur_temperature="$(echo "$cur_temperature / 1000" | bc -l | xargs printf "%.2f")"
         cur_temperature="$(echo "$cur_temperature * 1.8 + 32" | bc -l | xargs printf "%1.0f")"
 
-        # Temperature gage 
+        # Temperature gage
         # C2 - green  (temp <= 122) All Good!
         # C6 - yellow (122 < temp <= 176) It's getting kindof hot
         # C5 - red    (temp > 176) Danger zone!
@@ -131,7 +131,7 @@ if [ -f /sys/class/thermal/thermal_zone0/temp ]; then
         # Else just print the temp in C
         cur_temperature="$(echo "$cur_temperature / 1000" | bc -l | xargs printf "%1.0f")"
 
-        # Temperature gage 
+        # Temperature gage
         # C2 - green  (temp <= 50) All Good!
         # C6 - yellow (50 < temp <= 80) It's getting kindof hot
         # C5 - red    (temp > 80) Danger zone!
@@ -244,7 +244,7 @@ fi
 [[ $loadavg            != false ]] && echo -e "${C1} + ${C3}Load Averages  ${C1}=  ${C4}${loadavg_one}, ${loadavg_five}, ${loadavg_fifteen} ${C0}(1, 5, 15 min)"
 [[ $distro             != false ]] && echo -e "${C1} + ${C3}Distro         ${C1}=  ${C4}$distro_pretty_name ${C0}($(uname -r))"
 [[ $cpu_model_name     != false ]] && echo -e "${C1} + ${C3}CPU            ${C1}=  ${C4}$cpu_model_name"
-[[ $memory             != false ]] && echo -e "${C1} + ${C3}Memory         ${C1}=  ${C4}$memory_percent ${C0}(${memory_free_mb}MB Free, ${memory_used_mb}MB/${memory_available_mb}MB Used)     "    
+[[ $memory             != false ]] && echo -e "${C1} + ${C3}Memory         ${C1}=  ${C4}$memory_percent ${C0}(${memory_free_mb}MB Free, ${memory_used_mb}MB/${memory_available_mb}MB Used)     "
 [[ $swap               != false ]] && echo -e "${C1} + ${C3}Swap           ${C1}=  ${C4}$swap_percent ${C0}(${swap_free_mb}MB Free, ${swap_used_mb}MB/${swap_available_mb}MB Used)"
 [[ $hdd                != false ]] && echo -e "${C1} + ${C3}HDD Usage      ${C1}=  ${C4}$hdd_percent ${C0}(${hdd_free}B Free, ${hdd_used}B/${hdd_available}B Used)"
 [[ $updtaes            != false ]] && echo -e "${C1} + ${C3}Updates        ${C1}=  ${C4}$UPDATESAVAIL ${C0}Updates Available"
