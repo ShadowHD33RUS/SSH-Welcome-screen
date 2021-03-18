@@ -268,4 +268,5 @@ fi
 [[ $OPEN_PORTS_IPV4    != false ]] && echo -e "${C1} + ${C3}OpenPorts IPv4 ${C1}=  ${C4}$OPEN_PORTS_IPV4"
 [[ $OPEN_PORTS_IPV6    != false ]] && echo -e "${C1} + ${C3}OpenPorts IPv6 ${C1}=  ${C4}$OPEN_PORTS_IPV6"
 [[ $last_line          != false ]] && echo -e "${C1} ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${CNC}"
-exit 0
+
+echo ''>/dev/null
