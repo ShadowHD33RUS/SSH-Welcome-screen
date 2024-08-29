@@ -19,7 +19,7 @@ This screen is what the server administrator ever needs. CPU temperature, Load A
 
 The script is **SCRIPT/MOTD.sh**
 
-# Custom SSH welcome screen
+# The installation process
 This screen is what the server administrator ever needs on one page.
 A custom ASCII art of Montreal, a city where I live. 
 CPU temperature, Load Average, Memory and Disk usage, Available system updates, that is to name a few...
@@ -91,8 +91,7 @@ Now, save, exit and make this script executable.
 `chmod +x /var/zzscriptzz/MOTD/MOTD.sh`
 
 
-## The installation process
-
+## Applying the custom welcome message
 Those commands easier to be executed as root user, so:
 ```
 su
